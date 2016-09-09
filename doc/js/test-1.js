@@ -1,0 +1,1 @@
+!function(){var a="Hello Grunt!(From a.js)";console.log(a)}();

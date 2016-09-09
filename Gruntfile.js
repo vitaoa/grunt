@@ -9,9 +9,9 @@ module.exports = function(grunt){
 
 		//uglify插件的配置信息
 		uglify:{
-			options:{
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-			},
+//			options:{
+//				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+//			},
 			builda: {//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer
                 options: {
                     mangle: false, //不混淆变量名
@@ -19,7 +19,7 @@ module.exports = function(grunt){
                     footer:'\n/*! <%= pkg.name %> 最后修改于： <%= grunt.template.today("yyyy-mm-dd") %> */'//添加footer
                 },
                 files: {
-                    'output/js/a.min.js': ['src/test-1.js']
+                    'doc/js/a.min.js': ['assets/js/test-1.js']
                 }
             },
             buildb:{//任务二：压缩b.js，输出压缩信息
@@ -27,25 +27,25 @@ module.exports = function(grunt){
                     report: "min"//输出压缩率，可选的值有 false(不输出信息)，gzip
                 },
                 files: {
-                    'output/js/b.min.js': ['src/test-2.js']
+                    'doc/js/b.min.js': ['assets/js/test-2.js']
                 }
             },
-            buildall: {//任务三：按原文件结构压缩src文件夹内所有JS文件
+            buildall: {//任务三：按原文件结构压缩assets/js文件夹内所有JS文件
                 files: [{
                     expand:true,
-                    cwd:'src',//src目录下
+                    cwd:'assets/js',//assets/js目录下
                     src:'**/*.js',//所有js文件
-                    dest: 'output/js'//输出到此目录下
+                    dest: 'doc/js'//输出到此目录下
                 }]
             },
             release: {//任务四：合并压缩a.js和b.js
                 files: {
-                    'output/js/all.min.js': ['src/test-1.js', 'src/test-2.js']
+                    'doc/js/all.min.js': ['assets/js/test-1.js', 'assets/js/test-2.js']
                 }
             }
 			// build:{
 			// 	src:'src/test-1.js',
-			// 	dest:'build/<%=pkg.version%>.min.js'
+			// 	dest:'doc/js/<%=pkg.version%>.min.js'
 			// }
 		}
 	})

@@ -10,7 +10,7 @@ module.exports = function(grunt){
 		//uglify插件的配置信息
 		uglify:{
 //			options:{
-//				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+//				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'  //标记，编译之后文件顶部标记
 //			},
 			builda: {//任务一：压缩a.js，不混淆变量名，保留注释，添加banner和footer
                 options: {
@@ -47,10 +47,50 @@ module.exports = function(grunt){
 			// 	src:'src/test-1.js',
 			// 	dest:'doc/js/<%=pkg.version%>.min.js'
 			// }
+		},
+	
+		//less插件的配置信息
+		less:{
+			buttons: {
+		        options: {
+		          strictMath: true
+//		          sourceMap: true,
+//		          outputSourceFiles: true,
+//		          sourceMapURL: '<%= pkg.name %>.css.map',
+//		          sourceMapFilename: 'dist/css/<%= pkg.name %>.css.map'
+		        },
+		        src: 'assets/less/buttons.less',
+		        dest: 'doc/css/<%= pkg.name %>-buttons.css'
+		   },
+			buildall: {
+		        options: {
+		          strictMath: true,
+		          compress:true
+		        },
+		        files: [{
+                    expand:true,
+                    cwd:'assets/less',//assets/less目录下
+                    src:'**/*.less',//所有js文件
+                    dest: 'doc/css',//输出到此目录下                    
+                    ext: '.css'
+                }]
+		   	},
+            release: {//合并压缩
+		        options: {
+		          strictMath: true, //如果设置为true，表达式需要用括号括起来
+		          compress:true //压缩编译之后的css文件，即删除css文件中的空行和空格
+		        },
+                files: {
+                    'doc/css/all.css': ['assets/less/base.less','assets/less/buttons.less']
+                }
+            }
 		}
+		
 	})
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	
 	//告诉grunt，当我们在终端中输入grunt时需要做些什么（注意先后顺序）
 	//grunt.registerTask('default',['uglify']);
 	// 默认任务
@@ -59,4 +99,6 @@ module.exports = function(grunt){
     grunt.registerTask('minb', ['uglify:buildb']);
     grunt.registerTask('minall', ['uglify:buildall']);
 
+    grunt.registerTask('css', ['less:release']);
+    grunt.registerTask('allcss', ['less:buildall']);
 }

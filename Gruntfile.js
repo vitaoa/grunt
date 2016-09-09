@@ -32,7 +32,7 @@ module.exports = function(grunt){
             },
             buildall: {//任务三：按原文件结构压缩assets/js文件夹内所有JS文件
                 files: [{
-                    expand:true,
+                    expand:true, // 设置为true，表示要支持cwd等更多配置
                     cwd:'assets/js',//assets/js目录下
                     src:'**/*.js',//所有js文件
                     dest: 'doc/js'//输出到此目录下
@@ -65,10 +65,10 @@ module.exports = function(grunt){
 			buildall: {
 		        options: {
 		          strictMath: true,
-		          compress:true
+		          compress:false
 		        },
 		        files: [{
-                    expand:true,
+                    expand:true,// 设置为true，表示要支持cwd等更多配置
                     cwd:'assets/less',//assets/less目录下
                     src:'**/*.less',//所有js文件
                     dest: 'doc/css',//输出到此目录下                    
@@ -84,12 +84,30 @@ module.exports = function(grunt){
                     'doc/css/all.css': ['assets/less/base.less','assets/less/buttons.less']
                 }
             }
-		}
+		},
+		
+		//autoprefixer插件的配置信息
+		autoprefixer: {
+			build: {
+		        options: {
+		          strictMath: true
+		        },
+		        src: 'doc/css/buttons.css',
+		        dest: 'doc/css/prefixer-buttons.css'
+		   },
+		    buildall: {
+		        expand: true, //// 设置为true，表示要支持cwd等更多配置
+		        cwd: 'doc/css',
+		        src: ['**/*.css'],
+		        dest: 'doc/css'
+		    }
+  		}
 		
 	})
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-autoprefixer');
 	
 	//告诉grunt，当我们在终端中输入grunt时需要做些什么（注意先后顺序）
 	//grunt.registerTask('default',['uglify']);
@@ -101,4 +119,6 @@ module.exports = function(grunt){
 
     grunt.registerTask('css', ['less:release']);
     grunt.registerTask('allcss', ['less:buildall']);
+    
+    grunt.registerTask('prefixercss', ['autoprefixer:build']);
 }

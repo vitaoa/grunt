@@ -1,15 +1,14 @@
+/* Variables */
+/* main */
 .box {
   color: #fe33ac;
   border-color: #fdcdea;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  -webkit-transition: 1s;
-          transition: 1s;
 }
 .box div {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  -webkit-transform:rotate(20deg);
-          transform:rotate(20deg);
+}
+.box div p {
+  color: #4b97e9;
 }
 #header h1 {
   font-size: 26px;

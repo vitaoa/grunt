@@ -14,6 +14,7 @@ module.exports = function(grunt) {
 //			jsPath: 'js/',
 //			sassPath: 'sass/',
 			lessPath:'soft-assets/less',
+			imgPath:'soft-assets/images',
 			examplesPath: 'examples'
 		},
 		
@@ -113,6 +114,19 @@ module.exports = function(grunt) {
 		clean: {
 			all: ['<%= meta.examplesPath %>/*']
 		},
+		imagemin: {
+          	dist: {
+	            options: {
+	                optimizationLevel: 3 //定义 PNG 图片优化水平    （1）
+	            },	
+	            files: [{
+	              expand: true,
+	              cwd: '<%= meta.imgPath %>/softcenter',   // 优化 softcenter 目录下所有 png/jpg/jpeg 图片
+	              src: ['**/*.{png,jpg,gif}'], 
+	              dest: 'softcenter/images/softcenter'   // 优化后的图片保存位置，覆盖旧图片，并且不作提示
+	            }]
+          	}
+        },
         //watch插件的配置信息
         watch: {
 			options: {
@@ -159,6 +173,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('prefixercss', ['autoprefixer:build']);
     grunt.registerTask('cssm', ['cssmin']);
+    grunt.registerTask('imgm', ['imagemin']);
 	grunt.registerTask('dist', ['clean:all','copy']);
 
     grunt.registerTask('server', ['dist','watch']);
